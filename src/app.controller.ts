@@ -13,23 +13,11 @@ export class AppController {
     private authService        : AuthService
     ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  // @UseGuards(LocalAuthGuard)
-  // @Post('auth/login')
-  // async login(@Request() req) {
-  //   return req.user;
-  // }
-
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Req() req) {
     const user = req.user as User;
     return this.authService.generateJWT(user);
-    // return this.authService.login(req.user);
   }
 }

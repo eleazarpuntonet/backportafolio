@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,Inject, NotFoundException } from '@nestjs/common';
 import { CreateElearningDto } from './dto/create-elearning.dto';
 import { UpdateElearningDto } from './dto/update-elearning.dto';
+import { Elearning, ElearningDocument } from './schemas/elearning.schema';
+import { Model } from 'mongoose'
 
 @Injectable()
 export class ElearningService {
-  create(createElearningDto: CreateElearningDto) {
-    return 'This action adds a new elearning';
+  constructor (@Inject('ELEARNING_MODEL') private learningModel: Model<ElearningDocument>){}
+
+  async create(createElearningDto: CreateElearningDto): Promise<Elearning> {
+    const newELearning = new this.learningModel(createElearningDto)
+    return await newELearning.save()
   }
 
-  findAll() {
-    return `This action returns all elearning`;
+  async findAll(): Promise<Elearning[]> {
+    return await this.learningModel.find().exec()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} elearning`;
+  async findOne(id: string): Promise<ElearningDocument> {
+    const about = await this.learningModel.findById(id)
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  update(id: number, updateElearningDto: UpdateElearningDto) {
-    return `This action updates a #${id} elearning`;
+  async update(id: string, updateElearningDto: UpdateElearningDto): Promise<Elearning> {
+    const about = await this.learningModel.findByIdAndUpdate(id, updateElearningDto, {new:true})
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} elearning`;
+  async remove(id: string): Promise<Elearning> {
+    return await this.learningModel.findByIdAndDelete(id)
   }
 }

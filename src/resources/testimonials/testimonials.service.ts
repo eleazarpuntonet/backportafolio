@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,Inject,NotFoundException } from '@nestjs/common';
+import { Model } from 'mongoose';
 import { CreateTestimonialDto } from './dto/create-testimonial.dto';
 import { UpdateTestimonialDto } from './dto/update-testimonial.dto';
+import { TestimonialDocument, Testimonial } from './schemas/testimonial.schema';
 
 @Injectable()
 export class TestimonialsService {
-  create(createTestimonialDto: CreateTestimonialDto) {
-    return 'This action adds a new testimonial';
+  constructor (@Inject('TESTIMONIAL_MODEL') private testimonialModel: Model<TestimonialDocument>){}
+
+
+  async create(createTestimonialDto: CreateTestimonialDto): Promise<Testimonial> {
+    const newAbout = new this.testimonialModel(createTestimonialDto)
+    return await newAbout.save()
   }
 
-  findAll() {
-    return `This action returns all testimonials`;
+  async findAll(): Promise<Testimonial[]> {
+    return this.testimonialModel.find().exec()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} testimonial`;
+  async findOne(id: string): Promise<Testimonial> {
+    const about = await this.testimonialModel.findById(id)
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  update(id: number, updateTestimonialDto: UpdateTestimonialDto) {
-    return `This action updates a #${id} testimonial`;
+  async update(id: string, updateTestimonialDto: UpdateTestimonialDto): Promise<Testimonial> {
+    const about = await this.testimonialModel.findByIdAndUpdate(id, updateTestimonialDto, {new:true})
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} testimonial`;
+  async remove(id: string): Promise<Testimonial> {
+    return await this.testimonialModel.findByIdAndDelete(id)
   }
 }

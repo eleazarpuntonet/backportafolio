@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TestimonialsModule } from './resources/testimonials/testimonials.module';
 import { AboutsModule } from './resources/abouts/abouts.module';
-import { ExperiencesModule } from './resources/experiences/experiences.module';
 import { SkillsModule } from './resources/skills/skills.module';
 import { WorkModule } from './resources/work/work.module';
 import { WorkexperiencesModule } from './resources/workexperiences/workexperiences.module';
@@ -24,7 +23,6 @@ import { RolesGuard } from './auth/guards/roles.guard';
     DatabaseModule,
     TestimonialsModule, 
     AboutsModule, 
-    ExperiencesModule, 
     SkillsModule, 
     WorkModule, 
     WorkexperiencesModule, 

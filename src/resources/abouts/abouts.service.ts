@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,Inject, NotFoundException } from '@nestjs/common';
 import { CreateAboutDto } from './dto/create-about.dto';
 import { UpdateAboutDto } from './dto/update-about.dto';
+import { Model } from 'mongoose'
+import { AboutDocument,About } from './schemas/about.schema';
+import { Public } from 'src/auth/public.decorator';
 
 @Injectable()
 export class AboutsService {
-  create(createAboutDto: CreateAboutDto) {
-    return 'This action adds a new about';
+  constructor (@Inject('ABOUT_MODEL') private aboutModel: Model<AboutDocument>){}
+
+
+  async create(createAboutDto: CreateAboutDto): Promise<About> {
+    const newAbout = new this.aboutModel(createAboutDto)
+    return await newAbout.save()
   }
 
-  findAll() {
-    return `This action returns all abouts`;
+  async findAll(): Promise<About[]> {
+    return this.aboutModel.find().exec()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} about`;
+  async findOne(id: string): Promise<About> {
+    const about = await this.aboutModel.findById(id)
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  update(id: number, updateAboutDto: UpdateAboutDto) {
-    return `This action updates a #${id} about`;
+  async update(id: string, updateAboutDto: UpdateAboutDto): Promise<About> {
+    const about = await this.aboutModel.findByIdAndUpdate(id, updateAboutDto, {new:true})
+
+    if(!about){
+      throw new NotFoundException(`El about ${id} no puede ser encontrado`)
+    }
+
+    return about
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} about`;
+  async remove(id: string): Promise<About> {
+    return await this.aboutModel.findByIdAndDelete(id)
   }
 }
