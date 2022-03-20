@@ -20,7 +20,6 @@ export class CreateWorkexperienceDto {
     start: string
     
     @IsString({message: 'end debe ser un texto'})
-    @IsNotEmpty({message: 'end es un campo requerido'})
-    end: any
+    end: string
 
 }

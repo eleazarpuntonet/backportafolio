@@ -10,7 +10,7 @@ export class Skill extends Document {
   titulo: string;
 
   @Prop({ required: true })
-  descripcion: string;
+  description: string;
 
   @Prop({ required: false })
   image: string;

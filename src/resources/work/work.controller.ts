@@ -4,12 +4,13 @@ import { CreateWorkDto } from './dto/create-work.dto';
 import { UpdateWorkDto } from './dto/update-work.dto';
 import { Public } from 'src/auth/public.decorator';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('work')
 export class WorkController {
   constructor(private readonly workService: WorkService) {}
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtGuard)
   @Post()
   create(@Body() createWorkDto: CreateWorkDto) {
     return this.workService.create(createWorkDto);
@@ -21,19 +22,19 @@ export class WorkController {
     return this.workService.findAll();
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.workService.findOne(id);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkDto: UpdateWorkDto) {
     return this.workService.update(id, updateWorkDto);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.workService.remove(id);

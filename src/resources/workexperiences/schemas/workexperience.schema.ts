@@ -18,7 +18,7 @@ export class WorkExperience extends Document {
   @Prop({ required: true })
   start: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   end: string;
 }
 
