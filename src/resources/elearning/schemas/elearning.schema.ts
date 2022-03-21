@@ -12,7 +12,7 @@ export class Elearning extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   image: string;
 }
 

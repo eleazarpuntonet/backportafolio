@@ -10,6 +10,5 @@ export class CreateElearningDto {
     @IsNotEmpty({message: 'description es un campo requerido'})
     description: string
 
-    @IsNotEmpty({message: 'code_link es un campo requerido'})
     image: any
 }

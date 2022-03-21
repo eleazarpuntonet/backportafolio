@@ -1,19 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, StreamableFile } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { Public } from 'src/auth/public.decorator';
 import { ElearningService } from './elearning.service';
 import { CreateElearningDto } from './dto/create-elearning.dto';
 import { UpdateElearningDto } from './dto/update-elearning.dto';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
-
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { filenameRandom } from 'src/common/commons';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 @Controller('elearning')
 export class ElearningController {
-  constructor(private readonly elearningService: ElearningService) {}
+  public SERVER_URL: string  =  "http://localhost:3000/"
+
+  constructor(
+    private readonly elearningService: ElearningService
+  ) {}
 
   @UseGuards(JwtGuard)
   @Post()
-  create(@Body() createElearningDto: CreateElearningDto) {
-    return this.elearningService.create(createElearningDto);
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './files',
+      filename: filenameRandom
+    }),
+  }))
+  create(
+    @Body() createElearningDto: CreateElearningDto,
+    @UploadedFile() image: Express.Multer.File
+    ) {
+      // let pre = join(process.cwd())
+      // let post = image.path
+      // let mayb = pre+post
+      const stream = createReadStream(join(process.cwd(), image.path));
+      let path = new StreamableFile(stream)
+      // createElearningDto.image = path 
+      createElearningDto.image = stream.path
+      return this.elearningService.create(createElearningDto);
   }
 
   @Public()

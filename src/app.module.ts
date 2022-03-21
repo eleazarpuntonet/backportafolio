@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MulterModule } from '@nestjs/platform-express';
 import { TestimonialsModule } from './resources/testimonials/testimonials.module';
 import { AboutsModule } from './resources/abouts/abouts.module';
 import { SkillsModule } from './resources/skills/skills.module';
@@ -20,6 +21,9 @@ import { RolesGuard } from './auth/guards/roles.guard';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './files'
+    }),
     DatabaseModule,
     TestimonialsModule, 
     AboutsModule, 
