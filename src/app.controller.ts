@@ -20,4 +20,10 @@ export class AppController {
     const user = req.user as User;
     return this.authService.generateJWT(user);
   }
+
+  @Public()
+  @Get('/public')
+  findOne() {
+
+  }
 }

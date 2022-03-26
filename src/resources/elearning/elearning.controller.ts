@@ -10,7 +10,9 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { filenameRandom } from 'src/common/commons';
 import { createReadStream } from 'fs';
+import getBaseUrl from "get-base-url"
 import { join } from 'path';
+import { imagePathResolver } from '../../common/commons'
 @Controller('elearning')
 export class ElearningController {
   public SERVER_URL: string  =  "http://localhost:3000/"
@@ -19,7 +21,8 @@ export class ElearningController {
     private readonly elearningService: ElearningService
   ) {}
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -31,13 +34,7 @@ export class ElearningController {
     @Body() createElearningDto: CreateElearningDto,
     @UploadedFile() image: Express.Multer.File
     ) {
-      // let pre = join(process.cwd())
-      // let post = image.path
-      // let mayb = pre+post
-      const stream = createReadStream(join(process.cwd(), image.path));
-      let path = new StreamableFile(stream)
-      // createElearningDto.image = path 
-      createElearningDto.image = stream.path
+      createElearningDto.image = imagePathResolver(image)
       return this.elearningService.create(createElearningDto);
   }
 
