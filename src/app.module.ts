@@ -24,11 +24,11 @@ import { join } from 'path';
 @Module({
   imports: [
     MulterModule.register({
-      dest: './public/files'
+      dest: './src/public'
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-  }),
+      rootPath: join(__dirname, '../src/public'),
+    }),
     DatabaseModule,
     TestimonialsModule, 
     AboutsModule, 
@@ -52,6 +52,6 @@ import { join } from 'path';
       useClass: RolesGuard,
     },
   ],
-  exports: []
+  exports: [AppService]
 })
 export class AppModule {}

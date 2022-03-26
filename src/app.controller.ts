@@ -21,9 +21,9 @@ export class AppController {
     return this.authService.generateJWT(user);
   }
 
-  @Public()
-  @Get('/public')
-  findOne() {
+  // @Public()
+  // @Get('/public')
+  // findOne() {
 
-  }
+  // }
 }

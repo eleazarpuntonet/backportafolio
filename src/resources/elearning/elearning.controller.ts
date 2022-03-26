@@ -13,12 +13,14 @@ import { createReadStream } from 'fs';
 import getBaseUrl from "get-base-url"
 import { join } from 'path';
 import { imagePathResolver } from '../../common/commons'
+import { atob } from 'buffer';
+import { AppService } from 'src/app.service';
 @Controller('elearning')
 export class ElearningController {
-  public SERVER_URL: string  =  "http://localhost:3000/"
+  public SERVER_URL:  string  =  "http://localhost:3000/"
 
   constructor(
-    private readonly elearningService: ElearningService
+    private readonly elearningService: ElearningService,
   ) {}
 
   // @UseGuards(JwtGuard)
@@ -26,7 +28,7 @@ export class ElearningController {
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
-      destination: './files',
+      destination: './src/public',
       filename: filenameRandom
     }),
   }))
@@ -34,7 +36,7 @@ export class ElearningController {
     @Body() createElearningDto: CreateElearningDto,
     @UploadedFile() image: Express.Multer.File
     ) {
-      createElearningDto.image = imagePathResolver(image)
+      createElearningDto.image = `${this.SERVER_URL}${image.filename}` 
       return this.elearningService.create(createElearningDto);
   }
 
