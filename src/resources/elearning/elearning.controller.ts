@@ -7,14 +7,7 @@ import { UpdateElearningDto } from './dto/update-elearning.dto';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
 import { filenameRandom } from 'src/common/commons';
-import { createReadStream } from 'fs';
-import getBaseUrl from "get-base-url"
-import { join } from 'path';
-import { imagePathResolver } from '../../common/commons'
-import { atob } from 'buffer';
-import { AppService } from 'src/app.service';
 @Controller('elearning')
 export class ElearningController {
   public SERVER_URL:  string  =  "http://localhost:3000/"
@@ -36,7 +29,11 @@ export class ElearningController {
     @Body() createElearningDto: CreateElearningDto,
     @UploadedFile() image: Express.Multer.File
     ) {
-      createElearningDto.image = `${this.SERVER_URL}${image.filename}` 
+      if(image){
+        createElearningDto.image = `${this.SERVER_URL}${image.filename}` 
+      } else {
+        createElearningDto.image = `${this.SERVER_URL}404.jpg` 
+      }
       return this.elearningService.create(createElearningDto);
   }
 
@@ -52,13 +49,31 @@ export class ElearningController {
     return this.elearningService.findOne(id);
   }
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateElearningDto: UpdateElearningDto) {
+  update(
+    @Param('id') id: string, 
+    @Body() updateElearningDto: UpdateElearningDto,
+    @UploadedFile() image: Express.Multer.File
+  ) {
+    if(image){
+      updateElearningDto.image = `${this.SERVER_URL}${image.filename}` 
+    } else {
+      updateElearningDto.image = updateElearningDto.image 
+    }
+
     return this.elearningService.update(id, updateElearningDto);
   }
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.elearningService.remove(id);
