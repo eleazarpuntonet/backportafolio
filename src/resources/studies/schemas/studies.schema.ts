@@ -7,7 +7,7 @@ export type StudieDocument = Studie & Document;
 @Schema()
 export class Studie extends Document {
   @Prop({ required: true })
-  nombre: string;
+  titulo: string;
 
   @Prop({ required: true })
   description: string;

@@ -10,7 +10,6 @@ export class CreateTestimonialDto {
     @IsNotEmpty({message: 'company es un campo requerido'})
     company: string
 
-    @IsNotEmpty({message: 'image es un campo requerido'})
     image: any;
 
     @IsString({message: 'El feedback debe ser un texto'})

@@ -1,18 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { SkillsService } from './skills.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { Public } from 'src/auth/public.decorator';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { filenameRandom } from 'src/common/commons';
+
 
 @Controller('skills')
 export class SkillsController {
+  public SERVER_URL:  string  =  "http://localhost:3000/"
+
   constructor(private readonly skillsService: SkillsService) {}
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Post()
-  create(@Body() createSkillDto: CreateSkillDto) {
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
+  create(
+    @Body() createSkillDto: CreateSkillDto,
+    @UploadedFile() image: Express.Multer.File
+    ) {
+      if(image){
+        createSkillDto.image = `${this.SERVER_URL}${image.filename}` 
+      } else {
+        createSkillDto.image = `${this.SERVER_URL}404.jpg` 
+      }
     return this.skillsService.create(createSkillDto);
   }
 
@@ -28,9 +49,25 @@ export class SkillsController {
     return this.skillsService.findOne(id);
   }
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto) {
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
+  update(
+    @Param('id') id: string, 
+    @Body() updateSkillDto: UpdateSkillDto,
+    @UploadedFile() image: Express.Multer.File
+    ) {
+    if(image){
+      updateSkillDto.image = `${this.SERVER_URL}${image.filename}` 
+    } else {
+      updateSkillDto.image = updateSkillDto.image 
+    }
     return this.skillsService.update(id, updateSkillDto);
   }
 

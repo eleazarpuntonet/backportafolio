@@ -1,18 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { TestimonialsService } from './testimonials.service';
 import { CreateTestimonialDto } from './dto/create-testimonial.dto';
 import { UpdateTestimonialDto } from './dto/update-testimonial.dto';
 import { Public } from 'src/auth/public.decorator';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { filenameRandom } from 'src/common/commons';
+
 
 @Controller('testimonials')
 export class TestimonialsController {
+  public SERVER_URL:  string  =  "http://localhost:3000/"
+
   constructor(private readonly testimonialsService: TestimonialsService) {}
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Post()
-  create(@Body() createTestimonialDto: CreateTestimonialDto) {
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
+  create(
+    @Body() createTestimonialDto: CreateTestimonialDto,
+    @UploadedFile() image: Express.Multer.File
+    ) {
+      if(image){
+        createTestimonialDto.image = `${this.SERVER_URL}${image.filename}` 
+      } else {
+        createTestimonialDto.image = `${this.SERVER_URL}404.jpg` 
+      }
     return this.testimonialsService.create(createTestimonialDto);
   }
 
@@ -28,9 +49,24 @@ export class TestimonialsController {
     return this.testimonialsService.findOne(id);
   }
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTestimonialDto: UpdateTestimonialDto) {
+  update(
+    @Param('id') id: string, 
+    @Body() updateTestimonialDto: UpdateTestimonialDto,
+    @UploadedFile() image: Express.Multer.File) {
+    if(image){
+      updateTestimonialDto.image = `${this.SERVER_URL}${image.filename}` 
+    } else {
+      updateTestimonialDto.image = updateTestimonialDto.image 
+    }
     return this.testimonialsService.update(id, updateTestimonialDto);
   }
 
