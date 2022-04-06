@@ -9,7 +9,7 @@ export class CreateWorkDto {
     @IsNotEmpty({message: 'description es un campo requerido'})
     description: string
 
-    @IsUrl({message: 'El campo debe ser una Url valida'})
+    // @IsUrl({message: 'El campo debe ser una Url valida'})
     link: string
 
     @IsUrl({message: 'El code_link debe ser una Url valida'})
@@ -17,6 +17,6 @@ export class CreateWorkDto {
 
     image: string
 
-    @IsArray({message: 'El tags debe ser un arreglo valido'})
+    // @IsArray({message: 'El tags debe ser un arreglo valido'})
     tags: string[]
 }

@@ -12,14 +12,14 @@ export class Work extends Document {
   @Prop({ required: true })
   description: string;
 
-//   @Prop({ required: true })
+  @Prop({ required: false })
   link: string;
 
-//   @Prop({ required: true })
+  @Prop({ required: false })
   code_link: string;
 
-//   @Prop({ required: true })
-  image: any;
+  @Prop({ required: false })
+  image: string;
 
   @Prop(raw({
     tags: []

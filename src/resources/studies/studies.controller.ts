@@ -8,13 +8,19 @@ import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { filenameRandom } from 'src/common/commons';
+import { ConfigService } from '@nestjs/config';
 
 
 @Controller('studies')
 export class StudiesController {
   public SERVER_URL:  string  =  "http://localhost:3000/"
 
-  constructor(private readonly studiesService: StudiesService) {}
+  constructor(
+    private readonly studiesService: StudiesService,
+    private readonly config: ConfigService
+    ) {
+      this.SERVER_URL = this.config.get<string>('SERVER_URL')
+    }
 
   // @UseGuards(JwtGuard)
   @Public()

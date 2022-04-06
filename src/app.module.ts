@@ -20,9 +20,14 @@ import { JwtGuard } from './auth/guards/jwt.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.development.env',
+      isGlobal: true,
+    }),
     MulterModule.register({
       dest: './src/public'
     }),

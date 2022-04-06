@@ -1,17 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,UseInterceptors, UploadedFile } from '@nestjs/common';
 import { WorkexperiencesService } from './workexperiences.service';
 import { CreateWorkexperienceDto } from './dto/create-workexperience.dto';
 import { UpdateWorkexperienceDto } from './dto/update-workexperience.dto';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { Public } from 'src/auth/public.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { filenameRandom } from 'src/common/commons';
 
 @Controller('workexperiences')
 export class WorkexperiencesController {
   constructor(private readonly workexperiencesService: WorkexperiencesService) {}
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Post()
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
   create(@Body() createWorkexperienceDto: CreateWorkexperienceDto) {
     return this.workexperiencesService.create(createWorkexperienceDto);
   }
@@ -28,13 +38,22 @@ export class WorkexperiencesController {
     return this.workexperiencesService.findOne(id);
   }
 
-  @UseGuards(JwtGuard)
+  
+  // @UseGuards(JwtGuard)
+  @Public()
+  @UseInterceptors(FileInterceptor('image',{
+    storage: diskStorage({
+      destination: './src/public',
+      filename: filenameRandom
+    }),
+  }))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkexperienceDto: UpdateWorkexperienceDto) {
     return this.workexperiencesService.update(id, updateWorkexperienceDto);
   }
 
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
+  @Public()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.workexperiencesService.remove(id);

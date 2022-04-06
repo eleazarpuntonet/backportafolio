@@ -8,12 +8,18 @@ import { UpdateAboutDto } from './dto/update-about.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { filenameRandom } from 'src/common/commons';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('abouts')
 export class AboutsController {
   public SERVER_URL:  string  =  "http://localhost:3000/"
 
-  constructor(private readonly aboutsService: AboutsService) {}
+  constructor(
+    private readonly aboutsService: AboutsService,
+    private readonly config: ConfigService
+  ) {
+    this.SERVER_URL = this.config.get<string>('SERVER_URL')
+  }
 
   // @UseGuards(JwtGuard)
   @Public()
