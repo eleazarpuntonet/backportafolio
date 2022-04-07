@@ -20,8 +20,7 @@ export class ElearningController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -53,8 +52,7 @@ export class ElearningController {
     return this.elearningService.findOne(id);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
       destination: './src/public',
@@ -76,8 +74,7 @@ export class ElearningController {
     return this.elearningService.update(id, updateElearningDto);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.elearningService.remove(id);

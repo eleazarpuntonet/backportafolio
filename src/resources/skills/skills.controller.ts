@@ -22,8 +22,7 @@ export class SkillsController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -55,8 +54,7 @@ export class SkillsController {
     return this.skillsService.findOne(id);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -77,8 +75,7 @@ export class SkillsController {
     return this.skillsService.update(id, updateSkillDto);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.skillsService.remove(id);

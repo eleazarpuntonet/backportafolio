@@ -13,8 +13,7 @@ import { filenameRandom } from 'src/common/commons';
 export class WorkexperiencesController {
   constructor(private readonly workexperiencesService: WorkexperiencesService) {}
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -39,8 +38,7 @@ export class WorkexperiencesController {
   }
 
   
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
       destination: './src/public',
@@ -52,8 +50,7 @@ export class WorkexperiencesController {
     return this.workexperiencesService.update(id, updateWorkexperienceDto);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.workexperiencesService.remove(id);

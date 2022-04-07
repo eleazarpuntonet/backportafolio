@@ -21,8 +21,7 @@ export class AboutsController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -54,8 +53,7 @@ export class AboutsController {
     return this.aboutsService.findOne(id);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -77,8 +75,7 @@ export class AboutsController {
   }
 
   @Delete(':id')
-  @Public()
-  // @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   remove(@Param('id') id: string) {
     return this.aboutsService.remove(id);
   }

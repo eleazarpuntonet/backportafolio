@@ -22,8 +22,7 @@ export class StudiesController {
       this.SERVER_URL = this.config.get<string>('SERVER_URL')
     }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -56,8 +55,7 @@ export class StudiesController {
   }
 
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
       destination: './src/public',
@@ -78,8 +76,7 @@ export class StudiesController {
   }
 
 
-  @Public()
-  // @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.studiesService.remove(id);

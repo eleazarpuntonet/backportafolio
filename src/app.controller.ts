@@ -1,4 +1,7 @@
-import { Controller, Post, UseGuards, Get, Req } from '@nestjs/common';
+import { Controller, Post, UseGuards, Get, Req, Res,StreamableFile,Response } from '@nestjs/common';
+import { createReadStream } from 'fs';
+import { join } from 'path';
+
 import { AppService } from './app.service';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -21,9 +24,19 @@ export class AppController {
     return this.authService.generateJWT(user);
   }
 
-  // @Public()
-  // @Get('/public')
-  // findOne() {
-
+  @Public()
+  @Get('/resume-pdf')
+  // resumePdf(): StreamableFile {
+  //   const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
+  //   return new StreamableFile(file);
   // }
+
+  resumePdf(@Response({ passthrough: true }) res): StreamableFile {
+    const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',
+    });
+    return new StreamableFile(file);
+  }
 }

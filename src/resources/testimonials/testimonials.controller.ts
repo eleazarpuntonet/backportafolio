@@ -22,8 +22,7 @@ export class TestimonialsController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -55,8 +54,7 @@ export class TestimonialsController {
     return this.testimonialsService.findOne(id);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
       destination: './src/public',

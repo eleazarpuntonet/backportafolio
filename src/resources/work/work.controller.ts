@@ -21,8 +21,7 @@ export class WorkController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
@@ -53,8 +52,7 @@ export class WorkController {
     return this.workService.findOne(id);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('image',{
     storage: diskStorage({
       destination: './src/public',
@@ -75,8 +73,7 @@ export class WorkController {
     return this.workService.update(id, updateWorkDto);
   }
 
-  // @UseGuards(JwtGuard)
-  @Public()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.workService.remove(id);
