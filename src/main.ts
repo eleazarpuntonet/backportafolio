@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { APP_PORT } from './common/constants'
+import { PORT } from './common/constants'
 import { join } from 'path';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
@@ -27,6 +27,6 @@ async function bootstrap() {
     }
   }));
 
-  await app.listen(process.env.APP_PORT);
+  await app.listen(process.env.PORT);
 }
 bootstrap();
