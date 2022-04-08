@@ -25,12 +25,13 @@ export class AppController {
   }
 
   @Public()
-  @Get('/resume-pdf')
-  // resumePdf(): StreamableFile {
-  //   const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
-  //   return new StreamableFile(file);
-  // }
+  @Get('/')
+  redirect(@Res() res) {
+    return res.redirect('/api');
+  }
 
+  @Public()
+  @Get('/resume-pdf')
   resumePdf(@Response({ passthrough: true }) res): StreamableFile {
     const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
     res.set({
