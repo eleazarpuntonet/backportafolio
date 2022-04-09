@@ -39,9 +39,7 @@ export class AppController {
     ) {
       try{
         const file = request.file
-        console.log(file)
         const url = await this.appService.uploadPublicFile(file.buffer,file.originalname)
-        console.log(url)
       } catch {
         console.log('Algo fallo')
       }
@@ -57,5 +55,11 @@ export class AppController {
       'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',
     });
     return new StreamableFile(file);
+  }
+
+  @Public()
+  @Get('/')
+  redirect(@Res() res) {
+    return res.redirect('/api');
   }
 }
