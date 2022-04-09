@@ -15,12 +15,7 @@ export class WorkexperiencesController {
 
   @UseGuards(JwtGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
+  @UseInterceptors(FileInterceptor('image'))
   create(@Body() createWorkexperienceDto: CreateWorkexperienceDto) {
     return this.workexperiencesService.create(createWorkexperienceDto);
   }
@@ -39,12 +34,7 @@ export class WorkexperiencesController {
 
   
   @UseGuards(JwtGuard)
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
+  @UseInterceptors(FileInterceptor('image'))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkexperienceDto: UpdateWorkexperienceDto) {
     return this.workexperiencesService.update(id, updateWorkexperienceDto);

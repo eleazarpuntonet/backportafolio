@@ -1,15 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
 import { TestimonialsService } from './testimonials.service';
 import { CreateTestimonialDto } from './dto/create-testimonial.dto';
 import { UpdateTestimonialDto } from './dto/update-testimonial.dto';
 import { Public } from 'src/auth/public.decorator';
-import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { filenameRandom } from 'src/common/commons';
 import { ConfigService } from '@nestjs/config';
-
+import { AppService } from 'src/app.service';
+import { Request } from 'express';
 
 @Controller('testimonials')
 export class TestimonialsController {
@@ -17,25 +15,22 @@ export class TestimonialsController {
 
   constructor(
     private readonly testimonialsService: TestimonialsService,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    private readonly appService: AppService
   ) {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
   @UseGuards(JwtGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
-  create(
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
     @Body() createTestimonialDto: CreateTestimonialDto,
-    @UploadedFile() image: Express.Multer.File
+    @Req() request: Request
     ) {
-      if(image){
-        createTestimonialDto.image = `${this.SERVER_URL}${image.filename}` 
+      const file = request.file
+      if(file){
+        createTestimonialDto.image = await this.appService.uploadPublicFile(file.buffer,file.originalname)
       } else {
         createTestimonialDto.image = `${this.SERVER_URL}404.jpg` 
       }
@@ -55,19 +50,17 @@ export class TestimonialsController {
   }
 
   @UseGuards(JwtGuard)
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
   @Patch(':id')
-  update(
+  @UseInterceptors(FileInterceptor('image'))
+  async update(
     @Param('id') id: string, 
     @Body() updateTestimonialDto: UpdateTestimonialDto,
-    @UploadedFile() image: Express.Multer.File) {
-    if(image){
-      updateTestimonialDto.image = `${this.SERVER_URL}${image.filename}` 
+    @UploadedFile() image: Express.Multer.File,
+    @Req() request: Request
+    ) {
+    const file = request.file
+    if(file){
+      updateTestimonialDto.image = await this.appService.uploadPublicFile(file.buffer,file.originalname)
     } else {
       updateTestimonialDto.image = updateTestimonialDto.image 
     }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
 import { SkillsService } from './skills.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
@@ -9,6 +9,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { filenameRandom } from 'src/common/commons';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
+import { AppService } from 'src/app.service';
 
 
 @Controller('skills')
@@ -17,25 +19,22 @@ export class SkillsController {
 
   constructor(
     private readonly skillsService: SkillsService,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    private readonly appService: AppService
   ) {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
   @UseGuards(JwtGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
-  create(
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
     @Body() createSkillDto: CreateSkillDto,
-    @UploadedFile() image: Express.Multer.File
+    @Req() request: Request
     ) {
-      if(image){
-        createSkillDto.image = `${this.SERVER_URL}${image.filename}` 
+      const file = request.file
+      if(file){
+        createSkillDto.image = await this.appService.uploadPublicFile(file.buffer,file.originalname)
       } else {
         createSkillDto.image = `${this.SERVER_URL}404.jpg` 
       }
@@ -56,19 +55,15 @@ export class SkillsController {
 
   @UseGuards(JwtGuard)
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
-  update(
+  @UseInterceptors(FileInterceptor('image'))
+  async update(
     @Param('id') id: string, 
     @Body() updateSkillDto: UpdateSkillDto,
-    @UploadedFile() image: Express.Multer.File
+    @Req() request: Request
     ) {
-    if(image){
-      updateSkillDto.image = `${this.SERVER_URL}${image.filename}` 
+    const file = request.file
+    if(file){
+      updateSkillDto.image =  await this.appService.uploadPublicFile(file.buffer,file.originalname)
     } else {
       updateSkillDto.image = updateSkillDto.image 
     }

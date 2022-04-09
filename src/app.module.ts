@@ -21,16 +21,30 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: process.env.NODE_ENV  == 'local'? '.local.env': '.env',
       isGlobal: true,
+      validationSchema: Joi.object({
+        SERVER_URL            : Joi.string().required(),
+
+        DATABASE_NAME         : Joi.string().required(),
+        DATABASE_USERNAME     : Joi.string().required(),
+        DATABASE_PASSWORD     : Joi.string().required(),
+        DATABASE_HOST         : Joi.string().required(),
+
+        AWS_PUBLIC_BUCKET_NAME: Joi.string().required(),
+        AWS_ACCESS_KEY_ID     : Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY : Joi.string().required(),
+        AWS_REGION            : Joi.string().required(),
+
+        PORT                  : Joi.number().required()
+      })
     }),
-    MulterModule.register({
-      dest: './src/public'
-    }),
+    MulterModule.register(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../src/public'),
     }),

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, StreamableFile, Req } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { Public } from 'src/auth/public.decorator';
 import { ElearningService } from './elearning.service';
@@ -9,31 +9,30 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { filenameRandom } from 'src/common/commons';
 import { ConfigService } from '@nestjs/config';
+import { AppService } from 'src/app.service';
+import { Request } from 'express';
 @Controller('elearning')
 export class ElearningController {
   public SERVER_URL:  string  =  "http://localhost:3000/"
 
   constructor(
     private readonly elearningService: ElearningService,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    private readonly appService: AppService
   ) {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
   @UseGuards(JwtGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
-  create(
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
     @Body() createElearningDto: CreateElearningDto,
-    @UploadedFile() image: Express.Multer.File
+    @Req() request: Request
     ) {
-      if(image){
-        createElearningDto.image = `${this.SERVER_URL}${image.filename}` 
+      const file = request.file
+      if(file){
+        createElearningDto.image = await this.appService.uploadPublicFile(file.buffer,file.originalname)
       } else {
         createElearningDto.image = `${this.SERVER_URL}404.jpg` 
       }
@@ -53,20 +52,16 @@ export class ElearningController {
   }
 
   @UseGuards(JwtGuard)
-  @UseInterceptors(FileInterceptor('image',{
-    storage: diskStorage({
-      destination: './src/public',
-      filename: filenameRandom
-    }),
-  }))
+  @UseInterceptors(FileInterceptor('image'))
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string, 
     @Body() updateElearningDto: UpdateElearningDto,
-    @UploadedFile() image: Express.Multer.File
-  ) {
-    if(image){
-      updateElearningDto.image = `${this.SERVER_URL}${image.filename}` 
+    @Req() request: Request
+    ) {
+      const file = request.file
+      if(file){
+      updateElearningDto.image = await this.appService.uploadPublicFile(file.buffer,file.originalname)
     } else {
       updateElearningDto.image = updateElearningDto.image 
     }
