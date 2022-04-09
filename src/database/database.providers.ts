@@ -8,10 +8,10 @@ const localConnection =   {
 }
 
 
-const productionConnection =   {
+const productionConnection = {
   provide: 'DATABASE_CONNECTION',
   useFactory: (): Promise<typeof mongoose> =>
-    mongoose.connect(`mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}?authSource=admin&replicaSet=atlas-ialgos-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true`),
+    mongoose.connect(`mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}?authSource=admin&replicaSet=atlas-ialgos-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true`),
 }
 
 const isLocalEnvironment = process.env.NODE_ENV === 'local'
