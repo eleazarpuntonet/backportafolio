@@ -21,7 +21,7 @@ export class TestimonialsController {
     this.SERVER_URL = this.config.get<string>('SERVER_URL')
   }
 
-  @UseGuards(JwtGuard)
+  @Public()
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async create(
