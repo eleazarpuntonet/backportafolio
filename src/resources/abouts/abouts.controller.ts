@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req, Query } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { Public } from 'src/auth/public.decorator';
@@ -42,8 +42,10 @@ export class AboutsController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.aboutsService.findAll();
+  findAll(
+    @Query() params
+  ) {
+    return this.aboutsService.findAll(params.lang);
   }
 
   @Public()

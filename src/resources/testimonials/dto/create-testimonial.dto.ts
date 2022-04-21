@@ -16,4 +16,7 @@ export class CreateTestimonialDto {
     @IsNotEmpty({message: 'feedback es un campo requerido'})
     feedback: string
 
+    @IsUrl({message: 'El campo debe ser una url valida'})
+    @IsOptional()
+    linkedin: any
 }

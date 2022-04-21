@@ -11,4 +11,7 @@ export class CreateSkillDto {
     description: string
 
     image: any
+
+    @IsNotEmpty()
+    lang: string
 }

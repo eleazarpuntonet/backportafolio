@@ -8,6 +8,10 @@ export class CreateAboutDto {
     @IsString({message: 'La descripcion debe ser un texto'})
     @IsNotEmpty({message: 'description es un campo requerido'})
     description: string
-
-    image: any
+    
+    @IsOptional()
+    image: string
+    
+    @IsNotEmpty({message: 'El campo lang es requerido'})
+    lang: string
 }

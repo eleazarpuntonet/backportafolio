@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Get, Req, Res,StreamableFile,Response,UseInterceptors, UploadedFile, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Get, Req, Res,StreamableFile,Response,UseInterceptors, UploadedFile, Body, Inject } from '@nestjs/common';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -13,12 +13,22 @@ import { User } from './resources/users/schemas/user.schema';
 import { ConfigService } from '@nestjs/config';
 import { JwtGuard } from './auth/guards/jwt.guard';
 import { filenameRandom } from './common/commons';
+import { Connection } from 'mongoose';
+import { InjectConnection } from '@nestjs/mongoose';
+import { SkillSchema } from './resources/skills/schemas/skill.schema';
+import { WorkSchema } from './resources/work/schemas/work.schema';
+import { WorkExperienceSchema } from './resources/workexperiences/schemas/workexperience.schema';
+import { AboutSchema } from './resources/abouts/schemas/about.schema';
+import { StudieSchema } from './resources/studies/schemas/studies.schema';
+import { ElearningSchema } from './resources/elearning/schemas/elearning.schema';
+
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService        : AuthService,
     private readonly config: ConfigService,
+    @Inject('DATABASE_CONNECTION') private connection: Connection
     ) {}
 
   @Public()
@@ -56,6 +66,31 @@ export class AppController {
     });
     return new StreamableFile(file);
   }
+
+
+  // @Public()
+  // @Get('/test')
+  // async test() {
+  //   var model = await this.connection.model('e_learning',ElearningSchema)
+  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+  //   model = await this.connection.model('abouts',AboutSchema)
+  //   await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+  //   model = await this.connection.model('skills',SkillSchema)
+  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+  //   model = await this.connection.model('studies',StudieSchema)
+  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
+    
+  //   let modelo = await this.connection.model('work_experiences',WorkExperienceSchema)
+  //   await modelo.updateMany({},{ $set: { lang: 'es' } }).exec()
+    
+  //   model = await this.connection.model('works',WorkSchema)
+  //   return await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
+    
+  // }
+
 
   @Public()
   @Get('/')

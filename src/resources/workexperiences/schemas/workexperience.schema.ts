@@ -20,6 +20,9 @@ export class WorkExperience extends Document {
 
   @Prop({ required: false })
   end: string;
+
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const WorkExperienceSchema = SchemaFactory.createForClass(WorkExperience);

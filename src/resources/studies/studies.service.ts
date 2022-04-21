@@ -15,8 +15,8 @@ export class StudiesService {
     return await newskill.save()
   }
 
-  async findAll(): Promise<Studie[]> {
-    return this.studieModel.find().exec()
+  async findAll(lang): Promise<Studie[]> {
+    return this.studieModel.find({lang}).exec()
   }
 
   async findOne(id: string): Promise<Studie> {

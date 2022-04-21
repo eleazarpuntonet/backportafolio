@@ -13,8 +13,8 @@ export class ElearningService {
     return await newELearning.save()
   }
 
-  async findAll(): Promise<Elearning[]> {
-    return await this.learningModel.find().exec()
+  async findAll(lang): Promise<Elearning[]> {
+    return await this.learningModel.find({lang}).exec()
   }
 
   async findOne(id: string): Promise<ElearningDocument> {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { WorkexperiencesService } from './workexperiences.service';
 import { CreateWorkexperienceDto } from './dto/create-workexperience.dto';
 import { UpdateWorkexperienceDto } from './dto/update-workexperience.dto';
@@ -22,8 +22,10 @@ export class WorkexperiencesController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.workexperiencesService.findAll();
+  findAll(
+    @Query() params
+  ) {
+    return this.workexperiencesService.findAll(params.lang);
   }
 
   @Public()

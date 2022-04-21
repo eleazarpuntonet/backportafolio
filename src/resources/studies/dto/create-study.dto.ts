@@ -15,4 +15,7 @@ export class CreateStudyDto {
     year: string
 
     image: any
+
+    @IsNotEmpty()
+    lang: string
 }

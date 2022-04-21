@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, StreamableFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, StreamableFile, Req, Query } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/auth/guards/localauth.guard';
 import { Public } from 'src/auth/public.decorator';
 import { ElearningService } from './elearning.service';
@@ -41,8 +41,10 @@ export class ElearningController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.elearningService.findAll();
+  findAll(
+    @Query() params
+  ) {
+    return this.elearningService.findAll(params.lang);
   }
 
   @Public()

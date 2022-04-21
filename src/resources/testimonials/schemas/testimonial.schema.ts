@@ -17,6 +17,9 @@ export class Testimonial extends Document {
 
   @Prop({ required: true })
   feedback: string;
+
+  @Prop({ required: false })
+  linkedin: string;
 }
 
 export const TestimonialSchema = SchemaFactory.createForClass(Testimonial);

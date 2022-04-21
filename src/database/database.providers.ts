@@ -1,6 +1,4 @@
 import * as mongoose from 'mongoose';
-console.log(process.env.NODE_ENV)
-
 const localConnection =   {
   provide: 'DATABASE_CONNECTION',
   useFactory: (): Promise<typeof mongoose> =>

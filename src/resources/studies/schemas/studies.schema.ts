@@ -17,6 +17,9 @@ export class Studie extends Document {
 
   @Prop({ required: true })
   year: string;
+
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const StudieSchema = SchemaFactory.createForClass(Studie);

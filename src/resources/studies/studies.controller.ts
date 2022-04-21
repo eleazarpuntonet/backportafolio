@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards,UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards,UseInterceptors, UploadedFile, Req, Query } from '@nestjs/common';
 import { StudiesService } from './studies.service';
 import { CreateStudyDto } from './dto/create-study.dto';
 import { UpdateStudyDto } from './dto/update-study.dto';
@@ -43,8 +43,10 @@ export class StudiesController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.studiesService.findAll();
+  findAll(
+    @Query() params
+  ) {
+    return this.studiesService.findAll(params.lang);
   }
 
   @Public()

@@ -14,6 +14,9 @@ export class About extends Document {
 
   @Prop({ required: false })
   image: string;
+
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const AboutSchema = SchemaFactory.createForClass(About);

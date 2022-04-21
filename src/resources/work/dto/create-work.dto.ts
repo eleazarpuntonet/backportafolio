@@ -19,4 +19,7 @@ export class CreateWorkDto {
 
     // @IsArray({message: 'El tags debe ser un arreglo valido'})
     tags: string[]
+
+    @IsNotEmpty()
+    lang: string
 }

@@ -15,6 +15,8 @@ export class Skill extends Document {
   @Prop({ required: false })
   image: string;
 
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const SkillSchema = SchemaFactory.createForClass(Skill);

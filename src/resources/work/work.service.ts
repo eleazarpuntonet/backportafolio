@@ -15,8 +15,8 @@ export class WorkService {
     return await newWork.save();
   }
 
-  async findAll(): Promise<Work[]> {
-    return await this.worksModel.find().exec()
+  async findAll(lang): Promise<Work[]> {
+    return await this.worksModel.find({lang}).exec()
   }
 
   async findOne(id: string) {

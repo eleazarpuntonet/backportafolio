@@ -22,4 +22,6 @@ export class CreateWorkexperienceDto {
     @IsString({message: 'end debe ser un texto'})
     end: string
 
+    @IsNotEmpty()
+    lang: string
 }

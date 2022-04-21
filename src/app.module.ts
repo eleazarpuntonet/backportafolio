@@ -22,6 +22,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { databaseProviders } from './database/database.providers';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import * as Joi from 'joi';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
+    ...databaseProviders
   ],
   exports: [AppService]
 })

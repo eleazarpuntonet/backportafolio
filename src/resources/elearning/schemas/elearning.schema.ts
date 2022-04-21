@@ -14,6 +14,9 @@ export class Elearning extends Document {
 
   @Prop({ required: false })
   image: string;
+
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const ElearningSchema = SchemaFactory.createForClass(Elearning);

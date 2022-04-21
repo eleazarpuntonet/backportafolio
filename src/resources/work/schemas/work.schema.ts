@@ -25,6 +25,9 @@ export class Work extends Document {
     tags: []
   }))
   tags: Record<string, any>;
+
+  @Prop({ required: true })
+  lang: string;
 }
 
 export const WorkSchema = SchemaFactory.createForClass(Work);

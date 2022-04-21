@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Req, Query } from '@nestjs/common';
 import { WorkService } from './work.service';
 import { CreateWorkDto } from './dto/create-work.dto';
 import { UpdateWorkDto } from './dto/update-work.dto';
@@ -42,8 +42,10 @@ export class WorkController {
   
   @Public()
   @Get()
-  findAll() {
-    return this.workService.findAll();
+  findAll(
+    @Query() params
+  ) {
+    return this.workService.findAll(params.lang);
   }
 
   @UseGuards(JwtGuard)
