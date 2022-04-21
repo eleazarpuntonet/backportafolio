@@ -16,7 +16,7 @@ export class AboutsService {
   }
 
   async findAll(lang = 'es'): Promise<About[]> {
-    return this.aboutModel.find({lang}).exec()
+    return this.aboutModel.find(lang ? {lang}: null).exec()
   }
 
   async findOne(id: string): Promise<About> {

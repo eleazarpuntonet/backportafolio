@@ -16,7 +16,7 @@ export class StudiesService {
   }
 
   async findAll(lang): Promise<Studie[]> {
-    return this.studieModel.find({lang}).exec()
+    return this.studieModel.find(lang ? {lang}: null).exec()
   }
 
   async findOne(id: string): Promise<Studie> {

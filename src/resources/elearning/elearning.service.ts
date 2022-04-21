@@ -14,7 +14,7 @@ export class ElearningService {
   }
 
   async findAll(lang): Promise<Elearning[]> {
-    return await this.learningModel.find({lang}).exec()
+    return await this.learningModel.find(lang ? {lang}: null).exec()
   }
 
   async findOne(id: string): Promise<ElearningDocument> {

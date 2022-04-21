@@ -20,7 +20,7 @@ export class SkillsService {
   }
 
   async findAll(lang): Promise<Skill[]> {
-    return this.skillModel.find({lang}).exec()
+    return this.skillModel.find(lang ? {lang}: null).exec()
   }
 
   async findOne(id: string): Promise<Skill> {
