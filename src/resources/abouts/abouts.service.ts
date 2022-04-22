@@ -15,7 +15,7 @@ export class AboutsService {
     return await newAbout.save()
   }
 
-  async findAll(lang = 'es'): Promise<About[]> {
+  async findAll(lang): Promise<About[]> {
     return this.aboutModel.find(lang ? {lang}: null).exec()
   }
 
