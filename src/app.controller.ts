@@ -82,23 +82,84 @@ export class AppController {
   // @Public()
   // @Get('/test')
   // async test() {
-  //   var model = await this.connection.model('e_learning',ElearningSchema)
-  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
 
-  //   model = await this.connection.model('abouts',AboutSchema)
-  //   await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
-
-  //   model = await this.connection.model('skills',SkillSchema)
-  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
-
-  //   model = await this.connection.model('studies',StudieSchema)
-  //   await model.updateMany({},{ $set: { lang: 'es' } }).exec()
+    // var model = await this.connection.model('work_experiences',WorkExperienceSchema)
+    // var data = await model.find().exec()
+    // var newItems = data.map((item)=>{
+    //     const { nombre, cargo, description, start, end, lang } = item
+    //     const obj                                  = { nombre, cargo, description, start, end, lang }
+    //     obj.lang                                   = "en"
+    //     return obj
+    // })
+    // model.insertMany(newItems).then((res)=>{
+    //     // console.log(res)
+    // })
     
-  //   let modelo = await this.connection.model('work_experiences',WorkExperienceSchema)
-  //   await modelo.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+    // var modeWork = await this.connection.model('works',WorkSchema)
+    // data = await modeWork.find().exec()
+    // newItems = data.map((item)=>{
+    //     const { titulo, description, image, lang, code_link } = item
+    //     const obj                                  = { titulo, description, image, lang, code_link }
+    //     obj.lang                                   = "en"
+    //     return obj
+    // })
+    // modeWork.insertMany(newItems).then((res)=>{
+    //     // console.log(res)
+    // })
+
+    // var modelSutide = await this.connection.model('studies',StudieSchema)
+    // data = await modelSutide.find().exec()
+    // newItems = data.map((item)=>{
+    //     const { titulo, description, image, lang, year } = item
+    //     const obj                                  = { titulo, description, image, lang, year }
+    //     obj.lang                                   = "en"
+    //     return obj
+    // })
+    // modelSutide.insertMany(newItems).then((res)=>{
+    //     // console.log(res)
+    // })
+
+
+    // var modelAbout = await this.connection.model('abouts',AboutSchema)
+    // var data = await modelAbout.find().exec()
+    // newItems = data.map((item)=>{
+    //     const { titulo, description, image, lang } = item
+    //     const obj                                  = { titulo, description, image, lang }
+    //     obj.lang                                   = "en"
+    //     return obj
+    // })
+    // modelAbout.insertMany(newItems).then((res)=>{
+    //     // console.log(res)
+    // })
+
+    // var modelSkill = await this.connection.model('skills',SkillSchema)
+    // var data = await modelSkill.find().exec()
+    // newItems = data.map((item)=>{
+    //     const { titulo, description, image, lang } = item
+    //     const obj                                  = { titulo, description, image, lang }
+    //     obj.lang                                   = "en"
+    //     return obj
+    // })
+    // modelSkill.insertMany(newItems).then((res)=>{
+    //     // console.log(res)
+    // })
+
+
+    // model = await this.connection.model('abouts',AboutSchema)
+    // await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+    // model = await this.connection.model('skills',SkillSchema)
+    // await model.updateMany({},{ $set: { lang: 'es' } }).exec()
+
+    // model = await this.connection.model('studies',StudieSchema)
+    // await model.updateMany({},{ $set: { lang: 'es' } }).exec()
     
-  //   model = await this.connection.model('works',WorkSchema)
-  //   return await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
+    // let modelo = await this.connection.model('work_experiences',WorkExperienceSchema)
+    // await modelo.updateMany({},{ $set: { lang: 'es' } }).exec()
+    
+    // model = await this.connection.model('works',WorkSchema)
+    // return await  model.updateMany({},{ $set: { lang: 'es' } }).exec()
     
   // }
 
