@@ -59,7 +59,7 @@ export class AppController {
   @Public()
   @Get('/resume-pdf-es')
   resumePdf(@Response({ passthrough: true }) res): StreamableFile {
-    const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
+    const file = createReadStream(join(process.cwd(), '/src/public/files/ES_ELEAZAR_ORTEGA.pdf'));
     res.set({
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',
@@ -70,7 +70,7 @@ export class AppController {
   @Public()
   @Get('/resume-pdf-en')
   resumePdfEN(@Response({ passthrough: true }) res): StreamableFile {
-    const file = createReadStream(join(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_EN_ABR2022.pdf'));
+    const file = createReadStream(join(process.cwd(), '/src/public/files/EN_ELEAZAR_ORTEGA.pdf'));
     res.set({
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',

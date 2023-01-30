@@ -23,6 +23,7 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { databaseProviders } from './database/database.providers';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
@@ -58,7 +59,8 @@ import { databaseProviders } from './database/database.providers';
     StudiesModule, 
     ElearningModule, 
     UsersModule,
-    AuthModule
+    AuthModule,
+    ClientModule
   ],
   controllers: [AppController],
   providers: [

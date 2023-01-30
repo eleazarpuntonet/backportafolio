@@ -29,6 +29,7 @@ const path_1 = require("path");
 const config_1 = require("@nestjs/config");
 const Joi = require("joi");
 const database_providers_1 = require("./database/database.providers");
+const client_module_1 = require("./client/client.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -63,7 +64,8 @@ AppModule = __decorate([
             studies_module_1.StudiesModule,
             elearning_module_1.ElearningModule,
             users_module_1.UsersModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            client_module_1.ClientModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [

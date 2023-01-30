@@ -45,7 +45,7 @@ let AppController = class AppController {
         return 'retorno';
     }
     resumePdf(res) {
-        const file = (0, fs_1.createReadStream)((0, path_1.join)(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_ES_ABR2022.pdf'));
+        const file = (0, fs_1.createReadStream)((0, path_1.join)(process.cwd(), '/src/public/files/ES_ELEAZAR_ORTEGA.pdf'));
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',
@@ -53,7 +53,7 @@ let AppController = class AppController {
         return new common_1.StreamableFile(file);
     }
     resumePdfEN(res) {
-        const file = (0, fs_1.createReadStream)((0, path_1.join)(process.cwd(), '/src/public/files/ELEAZAR_ORTEGA_EN_ABR2022.pdf'));
+        const file = (0, fs_1.createReadStream)((0, path_1.join)(process.cwd(), '/src/public/files/EN_ELEAZAR_ORTEGA.pdf'));
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="ELEAZAR_ORTEGA.pdf"',

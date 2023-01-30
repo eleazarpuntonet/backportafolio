@@ -15,8 +15,8 @@ async function bootstrap() {
   .setVersion('1.0')
   .addTag('portafolio')
   .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('api', app, document);
   app.enableCors()
 
   app.useGlobalPipes(new ValidationPipe({
@@ -26,7 +26,7 @@ async function bootstrap() {
       enableImplicitConversion: true
     }
   }));
-
   await app.listen(process.env.PORT);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
